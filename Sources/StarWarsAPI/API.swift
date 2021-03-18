@@ -460,7 +460,7 @@ public final class HeroAndFriendsNamesQuery: GraphQLQuery {
       }
 
       public struct Friend: GraphQLSelectionSet {
-        public static let possibleTypes: [String] = ["Human", "Droid"]
+        public static let possibleTypes: [String] = ["Human", "Droid", "Wookie"]
 
         public static var selections: [GraphQLSelection] {
           return [
@@ -481,6 +481,10 @@ public final class HeroAndFriendsNamesQuery: GraphQLQuery {
 
         public static func makeDroid(name: String) -> Friend {
           return Friend(unsafeResultMap: ["__typename": "Droid", "name": name])
+        }
+
+        public static func makeWookie(name: String) -> Friend {
+          return Friend(unsafeResultMap: ["__typename": "Wookie", "name": name])
         }
 
         public var __typename: String {
@@ -632,7 +636,7 @@ public final class HeroAndFriendsNamesWithIDsQuery: GraphQLQuery {
       }
 
       public struct Friend: GraphQLSelectionSet {
-        public static let possibleTypes: [String] = ["Human", "Droid"]
+        public static let possibleTypes: [String] = ["Human", "Droid", "Wookie"]
 
         public static var selections: [GraphQLSelection] {
           return [
@@ -654,6 +658,10 @@ public final class HeroAndFriendsNamesWithIDsQuery: GraphQLQuery {
 
         public static func makeDroid(id: GraphQLID, name: String) -> Friend {
           return Friend(unsafeResultMap: ["__typename": "Droid", "id": id, "name": name])
+        }
+
+        public static func makeWookie(id: GraphQLID, name: String) -> Friend {
+          return Friend(unsafeResultMap: ["__typename": "Wookie", "id": id, "name": name])
         }
 
         public var __typename: String {
@@ -814,7 +822,7 @@ public final class HeroAndFriendsIDsQuery: GraphQLQuery {
       }
 
       public struct Friend: GraphQLSelectionSet {
-        public static let possibleTypes: [String] = ["Human", "Droid"]
+        public static let possibleTypes: [String] = ["Human", "Droid", "Wookie"]
 
         public static var selections: [GraphQLSelection] {
           return [
@@ -835,6 +843,10 @@ public final class HeroAndFriendsIDsQuery: GraphQLQuery {
 
         public static func makeDroid(id: GraphQLID) -> Friend {
           return Friend(unsafeResultMap: ["__typename": "Droid", "id": id])
+        }
+
+        public static func makeWookie(id: GraphQLID) -> Friend {
+          return Friend(unsafeResultMap: ["__typename": "Wookie", "id": id])
         }
 
         public var __typename: String {
@@ -985,7 +997,7 @@ public final class HeroAndFriendsNamesWithIdForParentOnlyQuery: GraphQLQuery {
       }
 
       public struct Friend: GraphQLSelectionSet {
-        public static let possibleTypes: [String] = ["Human", "Droid"]
+        public static let possibleTypes: [String] = ["Human", "Droid", "Wookie"]
 
         public static var selections: [GraphQLSelection] {
           return [
@@ -1006,6 +1018,10 @@ public final class HeroAndFriendsNamesWithIdForParentOnlyQuery: GraphQLQuery {
 
         public static func makeDroid(name: String) -> Friend {
           return Friend(unsafeResultMap: ["__typename": "Droid", "name": name])
+        }
+
+        public static func makeWookie(name: String) -> Friend {
+          return Friend(unsafeResultMap: ["__typename": "Wookie", "name": name])
         }
 
         public var __typename: String {
@@ -1275,7 +1291,7 @@ public final class HeroAndFriendsNamesWithFragmentTwiceQuery: GraphQLQuery {
       }
 
       public struct Friend: GraphQLSelectionSet {
-        public static let possibleTypes: [String] = ["Human", "Droid"]
+        public static let possibleTypes: [String] = ["Human", "Droid", "Wookie"]
 
         public static var selections: [GraphQLSelection] {
           return [
@@ -1296,6 +1312,10 @@ public final class HeroAndFriendsNamesWithFragmentTwiceQuery: GraphQLQuery {
 
         public static func makeDroid(name: String) -> Friend {
           return Friend(unsafeResultMap: ["__typename": "Droid", "name": name])
+        }
+
+        public static func makeWookie() -> Friend {
+          return Friend(unsafeResultMap: ["__typename": "Wookie"])
         }
 
         public var __typename: String {
@@ -1323,11 +1343,13 @@ public final class HeroAndFriendsNamesWithFragmentTwiceQuery: GraphQLQuery {
             self.resultMap = unsafeResultMap
           }
 
-          public var characterName: CharacterName {
+          public var characterName: CharacterName? {
             get {
+              if !CharacterName.possibleTypes.contains(resultMap["__typename"]! as! String) { return nil }
               return CharacterName(unsafeResultMap: resultMap)
             }
             set {
+              guard let newValue = newValue else { return }
               resultMap += newValue.resultMap
             }
           }
@@ -1386,7 +1408,7 @@ public final class HeroAndFriendsNamesWithFragmentTwiceQuery: GraphQLQuery {
         }
 
         public struct Friend: GraphQLSelectionSet {
-          public static let possibleTypes: [String] = ["Human", "Droid"]
+          public static let possibleTypes: [String] = ["Human", "Droid", "Wookie"]
 
           public static var selections: [GraphQLSelection] {
             return [
@@ -1408,6 +1430,10 @@ public final class HeroAndFriendsNamesWithFragmentTwiceQuery: GraphQLQuery {
 
           public static func makeDroid(name: String) -> Friend {
             return Friend(unsafeResultMap: ["__typename": "Droid", "name": name])
+          }
+
+          public static func makeWookie() -> Friend {
+            return Friend(unsafeResultMap: ["__typename": "Wookie"])
           }
 
           public var __typename: String {
@@ -1435,11 +1461,13 @@ public final class HeroAndFriendsNamesWithFragmentTwiceQuery: GraphQLQuery {
               self.resultMap = unsafeResultMap
             }
 
-            public var characterName: CharacterName {
+            public var characterName: CharacterName? {
               get {
+                if !CharacterName.possibleTypes.contains(resultMap["__typename"]! as! String) { return nil }
                 return CharacterName(unsafeResultMap: resultMap)
               }
               set {
+                guard let newValue = newValue else { return }
                 resultMap += newValue.resultMap
               }
             }
@@ -2595,7 +2623,7 @@ public final class HeroFriendsDetailsConditionalInclusionQuery: GraphQLQuery {
       }
 
       public struct Friend: GraphQLSelectionSet {
-        public static let possibleTypes: [String] = ["Human", "Droid"]
+        public static let possibleTypes: [String] = ["Human", "Droid", "Wookie"]
 
         public static var selections: [GraphQLSelection] {
           return [
@@ -2617,6 +2645,10 @@ public final class HeroFriendsDetailsConditionalInclusionQuery: GraphQLQuery {
 
         public static func makeHuman(name: String) -> Friend {
           return Friend(unsafeResultMap: ["__typename": "Human", "name": name])
+        }
+
+        public static func makeWookie(name: String) -> Friend {
+          return Friend(unsafeResultMap: ["__typename": "Wookie", "name": name])
         }
 
         public static func makeDroid(name: String, primaryFunction: String? = nil) -> Friend {
@@ -2819,19 +2851,15 @@ public final class HeroFriendsDetailsUnconditionalAndConditionalInclusionQuery: 
       }
 
       public struct Friend: GraphQLSelectionSet {
-        public static let possibleTypes: [String] = ["Human", "Droid"]
+        public static let possibleTypes: [String] = ["Human", "Droid", "Wookie"]
 
         public static var selections: [GraphQLSelection] {
           return [
             GraphQLTypeCase(
-              variants: ["Droid": AsDroid.selections],
+              variants: ["Human": AsHuman.selections, "Droid": AsDroid.selections],
               default: [
                 GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
                 GraphQLField("name", type: .nonNull(.scalar(String.self))),
-                GraphQLBooleanCondition(variableName: "includeFriendsDetails", inverted: false, selections: [
-                  GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
-                  GraphQLField("name", type: .nonNull(.scalar(String.self))),
-                ]),
               ]
             )
           ]
@@ -2841,6 +2869,10 @@ public final class HeroFriendsDetailsUnconditionalAndConditionalInclusionQuery: 
 
         public init(unsafeResultMap: ResultMap) {
           self.resultMap = unsafeResultMap
+        }
+
+        public static func makeWookie(name: String) -> Friend {
+          return Friend(unsafeResultMap: ["__typename": "Wookie", "name": name])
         }
 
         public static func makeHuman(name: String) -> Friend {
@@ -2867,6 +2899,61 @@ public final class HeroFriendsDetailsUnconditionalAndConditionalInclusionQuery: 
           }
           set {
             resultMap.updateValue(newValue, forKey: "name")
+          }
+        }
+
+        public var asHuman: AsHuman? {
+          get {
+            if !AsHuman.possibleTypes.contains(__typename) { return nil }
+            return AsHuman(unsafeResultMap: resultMap)
+          }
+          set {
+            guard let newValue = newValue else { return }
+            resultMap = newValue.resultMap
+          }
+        }
+
+        public struct AsHuman: GraphQLSelectionSet {
+          public static let possibleTypes: [String] = ["Human"]
+
+          public static var selections: [GraphQLSelection] {
+            return [
+              GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+              GraphQLField("name", type: .nonNull(.scalar(String.self))),
+              GraphQLBooleanCondition(variableName: "includeFriendsDetails", inverted: false, selections: [
+                GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+                GraphQLField("name", type: .nonNull(.scalar(String.self))),
+              ]),
+            ]
+          }
+
+          public private(set) var resultMap: ResultMap
+
+          public init(unsafeResultMap: ResultMap) {
+            self.resultMap = unsafeResultMap
+          }
+
+          public init(name: String) {
+            self.init(unsafeResultMap: ["__typename": "Human", "name": name])
+          }
+
+          public var __typename: String {
+            get {
+              return resultMap["__typename"]! as! String
+            }
+            set {
+              resultMap.updateValue(newValue, forKey: "__typename")
+            }
+          }
+
+          /// What this human calls themselves
+          public var name: String {
+            get {
+              return resultMap["name"]! as! String
+            }
+            set {
+              resultMap.updateValue(newValue, forKey: "name")
+            }
           }
         }
 
@@ -3532,13 +3619,17 @@ public final class HeroFriendsOfFriendsNamesQuery: GraphQLQuery {
       }
 
       public struct Friend: GraphQLSelectionSet {
-        public static let possibleTypes: [String] = ["Human", "Droid"]
+        public static let possibleTypes: [String] = ["Human", "Droid", "Wookie"]
 
         public static var selections: [GraphQLSelection] {
           return [
-            GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
-            GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
-            GraphQLField("friends", type: .list(.object(Friend.selections))),
+            GraphQLTypeCase(
+              variants: ["Human": AsHumanOrDroid.selections, "Droid": AsHumanOrDroid.selections],
+              default: [
+                GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+                GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+              ]
+            )
           ]
         }
 
@@ -3548,12 +3639,16 @@ public final class HeroFriendsOfFriendsNamesQuery: GraphQLQuery {
           self.resultMap = unsafeResultMap
         }
 
-        public static func makeHuman(id: GraphQLID, friends: [Friend?]? = nil) -> Friend {
-          return Friend(unsafeResultMap: ["__typename": "Human", "id": id, "friends": friends.flatMap { (value: [Friend?]) -> [ResultMap?] in value.map { (value: Friend?) -> ResultMap? in value.flatMap { (value: Friend) -> ResultMap in value.resultMap } } }])
+        public static func makeWookie(id: GraphQLID) -> Friend {
+          return Friend(unsafeResultMap: ["__typename": "Wookie", "id": id])
         }
 
-        public static func makeDroid(id: GraphQLID, friends: [Friend?]? = nil) -> Friend {
-          return Friend(unsafeResultMap: ["__typename": "Droid", "id": id, "friends": friends.flatMap { (value: [Friend?]) -> [ResultMap?] in value.map { (value: Friend?) -> ResultMap? in value.flatMap { (value: Friend) -> ResultMap in value.resultMap } } }])
+        public static func makeHuman(id: GraphQLID, friends: [AsHumanOrDroid.Friend?]? = nil) -> Friend {
+          return Friend(unsafeResultMap: ["__typename": "Human", "id": id, "friends": friends.flatMap { (value: [AsHumanOrDroid.Friend?]) -> [ResultMap?] in value.map { (value: AsHumanOrDroid.Friend?) -> ResultMap? in value.flatMap { (value: AsHumanOrDroid.Friend) -> ResultMap in value.resultMap } } }])
+        }
+
+        public static func makeDroid(id: GraphQLID, friends: [AsHumanOrDroid.Friend?]? = nil) -> Friend {
+          return Friend(unsafeResultMap: ["__typename": "Droid", "id": id, "friends": friends.flatMap { (value: [AsHumanOrDroid.Friend?]) -> [ResultMap?] in value.map { (value: AsHumanOrDroid.Friend?) -> ResultMap? in value.flatMap { (value: AsHumanOrDroid.Friend) -> ResultMap in value.resultMap } } }])
         }
 
         public var __typename: String {
@@ -3575,23 +3670,25 @@ public final class HeroFriendsOfFriendsNamesQuery: GraphQLQuery {
           }
         }
 
-        /// The friends of the character, or an empty list if they have none
-        public var friends: [Friend?]? {
+        public var asHumanOrDroid: AsHumanOrDroid? {
           get {
-            return (resultMap["friends"] as? [ResultMap?]).flatMap { (value: [ResultMap?]) -> [Friend?] in value.map { (value: ResultMap?) -> Friend? in value.flatMap { (value: ResultMap) -> Friend in Friend(unsafeResultMap: value) } } }
+            if !AsHumanOrDroid.possibleTypes.contains(__typename) { return nil }
+            return AsHumanOrDroid(unsafeResultMap: resultMap)
           }
           set {
-            resultMap.updateValue(newValue.flatMap { (value: [Friend?]) -> [ResultMap?] in value.map { (value: Friend?) -> ResultMap? in value.flatMap { (value: Friend) -> ResultMap in value.resultMap } } }, forKey: "friends")
+            guard let newValue = newValue else { return }
+            resultMap = newValue.resultMap
           }
         }
 
-        public struct Friend: GraphQLSelectionSet {
+        public struct AsHumanOrDroid: GraphQLSelectionSet {
           public static let possibleTypes: [String] = ["Human", "Droid"]
 
           public static var selections: [GraphQLSelection] {
             return [
               GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
-              GraphQLField("name", type: .nonNull(.scalar(String.self))),
+              GraphQLField("id", type: .nonNull(.scalar(GraphQLID.self))),
+              GraphQLField("friends", type: .list(.object(Friend.selections))),
             ]
           }
 
@@ -3601,12 +3698,12 @@ public final class HeroFriendsOfFriendsNamesQuery: GraphQLQuery {
             self.resultMap = unsafeResultMap
           }
 
-          public static func makeHuman(name: String) -> Friend {
-            return Friend(unsafeResultMap: ["__typename": "Human", "name": name])
+          public static func makeHuman(id: GraphQLID, friends: [Friend?]? = nil) -> AsHumanOrDroid {
+            return AsHumanOrDroid(unsafeResultMap: ["__typename": "Human", "id": id, "friends": friends.flatMap { (value: [Friend?]) -> [ResultMap?] in value.map { (value: Friend?) -> ResultMap? in value.flatMap { (value: Friend) -> ResultMap in value.resultMap } } }])
           }
 
-          public static func makeDroid(name: String) -> Friend {
-            return Friend(unsafeResultMap: ["__typename": "Droid", "name": name])
+          public static func makeDroid(id: GraphQLID, friends: [Friend?]? = nil) -> AsHumanOrDroid {
+            return AsHumanOrDroid(unsafeResultMap: ["__typename": "Droid", "id": id, "friends": friends.flatMap { (value: [Friend?]) -> [ResultMap?] in value.map { (value: Friend?) -> ResultMap? in value.flatMap { (value: Friend) -> ResultMap in value.resultMap } } }])
           }
 
           public var __typename: String {
@@ -3618,13 +3715,71 @@ public final class HeroFriendsOfFriendsNamesQuery: GraphQLQuery {
             }
           }
 
-          /// The name of the character
-          public var name: String {
+          /// The ID of the character
+          public var id: GraphQLID {
             get {
-              return resultMap["name"]! as! String
+              return resultMap["id"]! as! GraphQLID
             }
             set {
-              resultMap.updateValue(newValue, forKey: "name")
+              resultMap.updateValue(newValue, forKey: "id")
+            }
+          }
+
+          /// The friends of the character, or an empty list if they have none
+          public var friends: [Friend?]? {
+            get {
+              return (resultMap["friends"] as? [ResultMap?]).flatMap { (value: [ResultMap?]) -> [Friend?] in value.map { (value: ResultMap?) -> Friend? in value.flatMap { (value: ResultMap) -> Friend in Friend(unsafeResultMap: value) } } }
+            }
+            set {
+              resultMap.updateValue(newValue.flatMap { (value: [Friend?]) -> [ResultMap?] in value.map { (value: Friend?) -> ResultMap? in value.flatMap { (value: Friend) -> ResultMap in value.resultMap } } }, forKey: "friends")
+            }
+          }
+
+          public struct Friend: GraphQLSelectionSet {
+            public static let possibleTypes: [String] = ["Human", "Droid", "Wookie"]
+
+            public static var selections: [GraphQLSelection] {
+              return [
+                GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+                GraphQLField("name", type: .nonNull(.scalar(String.self))),
+              ]
+            }
+
+            public private(set) var resultMap: ResultMap
+
+            public init(unsafeResultMap: ResultMap) {
+              self.resultMap = unsafeResultMap
+            }
+
+            public static func makeHuman(name: String) -> Friend {
+              return Friend(unsafeResultMap: ["__typename": "Human", "name": name])
+            }
+
+            public static func makeDroid(name: String) -> Friend {
+              return Friend(unsafeResultMap: ["__typename": "Droid", "name": name])
+            }
+
+            public static func makeWookie(name: String) -> Friend {
+              return Friend(unsafeResultMap: ["__typename": "Wookie", "name": name])
+            }
+
+            public var __typename: String {
+              get {
+                return resultMap["__typename"]! as! String
+              }
+              set {
+                resultMap.updateValue(newValue, forKey: "__typename")
+              }
+            }
+
+            /// The name of the character
+            public var name: String {
+              get {
+                return resultMap["name"]! as! String
+              }
+              set {
+                resultMap.updateValue(newValue, forKey: "name")
+              }
             }
           }
         }
@@ -4517,7 +4672,7 @@ public final class HeroParentTypeDependentFieldQuery: GraphQLQuery {
         }
 
         public struct Friend: GraphQLSelectionSet {
-          public static let possibleTypes: [String] = ["Human", "Droid"]
+          public static let possibleTypes: [String] = ["Human", "Droid", "Wookie"]
 
           public static var selections: [GraphQLSelection] {
             return [
@@ -4539,6 +4694,10 @@ public final class HeroParentTypeDependentFieldQuery: GraphQLQuery {
 
           public static func makeDroid(name: String) -> Friend {
             return Friend(unsafeResultMap: ["__typename": "Droid", "name": name])
+          }
+
+          public static func makeWookie(name: String) -> Friend {
+            return Friend(unsafeResultMap: ["__typename": "Wookie", "name": name])
           }
 
           public static func makeHuman(name: String, height: Double? = nil) -> Friend {
@@ -4690,7 +4849,7 @@ public final class HeroParentTypeDependentFieldQuery: GraphQLQuery {
         }
 
         public struct Friend: GraphQLSelectionSet {
-          public static let possibleTypes: [String] = ["Human", "Droid"]
+          public static let possibleTypes: [String] = ["Human", "Droid", "Wookie"]
 
           public static var selections: [GraphQLSelection] {
             return [
@@ -4712,6 +4871,10 @@ public final class HeroParentTypeDependentFieldQuery: GraphQLQuery {
 
           public static func makeDroid(name: String) -> Friend {
             return Friend(unsafeResultMap: ["__typename": "Droid", "name": name])
+          }
+
+          public static func makeWookie(name: String) -> Friend {
+            return Friend(unsafeResultMap: ["__typename": "Wookie", "name": name])
           }
 
           public static func makeHuman(name: String, height: Double? = nil) -> Friend {
@@ -6731,12 +6894,16 @@ public struct CharacterNameWithInlineFragment: GraphQLFragment {
     }
 
     public struct Friend: GraphQLSelectionSet {
-      public static let possibleTypes: [String] = ["Human", "Droid"]
+      public static let possibleTypes: [String] = ["Human", "Droid", "Wookie"]
 
       public static var selections: [GraphQLSelection] {
         return [
-          GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
-          GraphQLField("appearsIn", type: .nonNull(.list(.scalar(Episode.self)))),
+          GraphQLTypeCase(
+            variants: ["Human": AsHumanOrDroid.selections, "Droid": AsHumanOrDroid.selections],
+            default: [
+              GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+            ]
+          )
         ]
       }
 
@@ -6744,6 +6911,10 @@ public struct CharacterNameWithInlineFragment: GraphQLFragment {
 
       public init(unsafeResultMap: ResultMap) {
         self.resultMap = unsafeResultMap
+      }
+
+      public static func makeWookie() -> Friend {
+        return Friend(unsafeResultMap: ["__typename": "Wookie"])
       }
 
       public static func makeHuman(appearsIn: [Episode?]) -> Friend {
@@ -6763,13 +6934,58 @@ public struct CharacterNameWithInlineFragment: GraphQLFragment {
         }
       }
 
-      /// The movies this character appears in
-      public var appearsIn: [Episode?] {
+      public var asHumanOrDroid: AsHumanOrDroid? {
         get {
-          return resultMap["appearsIn"]! as! [Episode?]
+          if !AsHumanOrDroid.possibleTypes.contains(__typename) { return nil }
+          return AsHumanOrDroid(unsafeResultMap: resultMap)
         }
         set {
-          resultMap.updateValue(newValue, forKey: "appearsIn")
+          guard let newValue = newValue else { return }
+          resultMap = newValue.resultMap
+        }
+      }
+
+      public struct AsHumanOrDroid: GraphQLSelectionSet {
+        public static let possibleTypes: [String] = ["Human", "Droid"]
+
+        public static var selections: [GraphQLSelection] {
+          return [
+            GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+            GraphQLField("appearsIn", type: .nonNull(.list(.scalar(Episode.self)))),
+          ]
+        }
+
+        public private(set) var resultMap: ResultMap
+
+        public init(unsafeResultMap: ResultMap) {
+          self.resultMap = unsafeResultMap
+        }
+
+        public static func makeHuman(appearsIn: [Episode?]) -> AsHumanOrDroid {
+          return AsHumanOrDroid(unsafeResultMap: ["__typename": "Human", "appearsIn": appearsIn])
+        }
+
+        public static func makeDroid(appearsIn: [Episode?]) -> AsHumanOrDroid {
+          return AsHumanOrDroid(unsafeResultMap: ["__typename": "Droid", "appearsIn": appearsIn])
+        }
+
+        public var __typename: String {
+          get {
+            return resultMap["__typename"]! as! String
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "__typename")
+          }
+        }
+
+        /// The movies this character appears in
+        public var appearsIn: [Episode?] {
+          get {
+            return resultMap["appearsIn"]! as! [Episode?]
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "appearsIn")
+          }
         }
       }
     }
@@ -6905,7 +7121,7 @@ public struct FriendsNames: GraphQLFragment {
   }
 
   public struct Friend: GraphQLSelectionSet {
-    public static let possibleTypes: [String] = ["Human", "Droid"]
+    public static let possibleTypes: [String] = ["Human", "Droid", "Wookie"]
 
     public static var selections: [GraphQLSelection] {
       return [
@@ -6926,6 +7142,10 @@ public struct FriendsNames: GraphQLFragment {
 
     public static func makeDroid(name: String) -> Friend {
       return Friend(unsafeResultMap: ["__typename": "Droid", "name": name])
+    }
+
+    public static func makeWookie(name: String) -> Friend {
+      return Friend(unsafeResultMap: ["__typename": "Wookie", "name": name])
     }
 
     public var __typename: String {

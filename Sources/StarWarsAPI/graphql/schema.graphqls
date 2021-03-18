@@ -73,6 +73,14 @@ enum LengthUnit {
   FOOT
 }
 
+type Wookie implements Friend {
+  # The ID of the wookie
+  id: ID!
+
+  # What this wookie calls themselves
+  name: String!
+}
+
 # A humanoid creature from the Star Wars universe
 type Human implements Friend & Character {
   # The ID of the human
